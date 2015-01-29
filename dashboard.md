@@ -7,9 +7,9 @@ group: "navigation"
 <p>this is some html</p>
 <button type="button"  id="somebutton">Hello World!</button>
 <script>
-$('#somebutton').click(function(){
+$('somebutton').click(function(){
 //Some code
-$.jsPanel();
+$(this).jsPanel();
 });
 </script>
 </div>
