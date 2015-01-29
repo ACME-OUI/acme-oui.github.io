@@ -6,14 +6,13 @@ customjs:
  - http://code.jquery.com/jquery-1.4.2.min.js
 ---
 <div>
-<p>this is some html</p>
-<button type="button"  id="somebutton">Hello World!</button>
-<script>
-$("body").jsPanel();
 
-$('somebutton').click(function(){
-//Some code
-$.jsPanel();
+<script>
+$("body").jsPanel({
+    selector: "#container-1",
+    position: "center",
+    theme:    "success",
+    title:    "Another jsPanel"
 });
 </script>
 </div>
