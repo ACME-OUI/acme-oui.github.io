@@ -9,6 +9,10 @@ customjs:
 
 <script>
 $("body").jsPanel({
+	paneltype: {
+        type: 'modal',
+        mode: 'default'
+    },
     selector: "#o-selector .panel-body",
     position: "center",
     title:    "Now with some Bootstrap styling",
