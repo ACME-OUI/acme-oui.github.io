@@ -6,6 +6,11 @@ customjs:
  - http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js
 ---
 
-      
-<p>This page is under construction.</p>
-<h2>Page name</h2>     
+<button type="button" onclick="
+$.jsPanel({
+selector: "#container-1",
+position: "center",
+theme:    "success",
+title:    "Another jsPanel"
+});"
+>Hello World!</button>
