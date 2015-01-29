@@ -12,7 +12,7 @@ $("body").jsPanel({
     selector: "#container-1",
     position: "center",
     title:    "Now with some Bootstrap styling",
-    bootstrap: "default"
+    bootstrap: "default",
     paneltype: "modal"
 });
 </script>
