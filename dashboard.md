@@ -2,6 +2,8 @@
 layout: default
 title: dashboard
 group: "navigation"
+customjs:
+ - http://code.jquery.com/jquery-1.4.2.min.js
 ---
 <div>
 <p>this is some html</p>
