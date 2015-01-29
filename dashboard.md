@@ -2,13 +2,16 @@
 layout: default
 title: dashboard
 group: "navigation"
+customjs:
+ - http://code.jquery.com/jquery-1.4.2.min.js
 ---
-
-<button type="button" id="somebutton" >Hello World!</button>
-
+<div>
+<p>this is some html</p>
+<button type="button"  id="somebutton">Hello World!</button>
 <script>
-$('#somebutton').click(function(){
+$('somebutton').click(function(){
 //Some code
-jQuery.jsPanel()
+$(this).jsPanel();
 });
 </script>
+</div>
