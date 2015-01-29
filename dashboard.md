@@ -5,7 +5,7 @@ group: "navigation"
 ---
 <div>
 <p>this is some html</p>
-<button type="button" onclick="makePanel()">Hello World!</button>
+<button type="button"  id="somebutton">Hello World!</button>
 <script>
 $('#somebutton').click(function(){
 //Some code
