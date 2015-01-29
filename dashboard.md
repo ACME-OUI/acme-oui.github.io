@@ -11,7 +11,7 @@ customjs:
 <script>
 $('somebutton').click(function(){
 //Some code
-$(this).jsPanel();
+$.jsPanel();
 });
 </script>
 </div>
