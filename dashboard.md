@@ -9,10 +9,11 @@ customjs:
 
 <script>
 $("body").jsPanel({
-    selector: "#container-1",
-    position: "center",
-    title:    "Now with some Bootstrap styling",
-    bootstrap: "danger",
+    paneltype: {
+        type: 'modal',
+        mode: 'default'
+    },
+    theme:    'medium'
 });
 </script>
 </div>
