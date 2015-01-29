@@ -4,4 +4,9 @@ title: dashboard
 group: "navigation"
 ---
 
-<button type="button" onclick="$.jsPanel({selector: "#container-1",position: "center",theme: "success", title: "Another jsPanel"});">Hello World!</button>
+<button type="button" onclick="makePanel()">Hello World!</button>
+<script>
+	function makePanel(){
+		$.jsPanel({selector: "#container-1",position: "center",theme: "success", title: "Another jsPanel"});
+	}
+</script>
