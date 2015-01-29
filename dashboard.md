@@ -9,6 +9,8 @@ customjs:
 <p>this is some html</p>
 <button type="button"  id="somebutton">Hello World!</button>
 <script>
+$("body").jsPanel();
+
 $('somebutton').click(function(){
 //Some code
 $.jsPanel();
