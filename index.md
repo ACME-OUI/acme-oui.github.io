@@ -4,7 +4,7 @@ title: Index
 ---
 
 <div class="hero-unit">
-<p><h1>Hello, world!</h1>
+<p><h1>Hello, ACME!</h1>
 <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
 <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p></p></div>
 
@@ -12,17 +12,24 @@ title: Index
 <!-- Main hero unit for a primary marketing message or call to action -->
 
 <p><div class="span4">
-<h2>Heading</h2>
-<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-<p><a class="btn" href="#">View details &raquo;</a></p>
+<h2>jsPanel</h2>
+<p>
+A jsPanel is highly configurable by a bunch of options, properties, methods and events. And it's not limited to the use as a floating panel. You can further use it as modal panel, as tooltip, and even as hint. Configuration options include additional toolbars for the header and/or footer sections, support for right-to-left text direction, built in bootstrap support and much more.
+
+</p>
+<p><a class="btn" href="http://jspanel.de/index.html">View details &raquo;</a></p>
 </div>
 <div class="span4">
-<h2>Heading</h2>
-<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-<p><a class="btn" href="#">View details &raquo;</a></p>
+<h2>ANGULARJS</h2>
+<p> 
+AngularJS is a toolset for building the framework most suited to your application development. It is fully extensible and works well with other libraries. Every feature can be modified or replaced to suit your unique development workflow and feature needs. Read on to find out how.
+</p>
+<p><a class="btn" href="https://angularjs.org">View details &raquo;</a></p>
 </div>
 <div class="span4">
-<h2>Heading</h2>
-<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-<p><a class="btn" href="#">View details &raquo;</a></p>
+<h2>Bootstrap</h2>
+<p>
+Bootstrap easily and efficiently scales your websites and applications with a single code base, from phones to tablets to desktops with CSS media queries. 
+With Bootstrap, you get extensive and beautiful documentation for common HTML elements, dozens of custom HTML and CSS components, and awesome jQuery plugins.
+<p><a class="btn" href="http://getbootstrap.com">View details &raquo;</a></p>
 </div></p></div> 
