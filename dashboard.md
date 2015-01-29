@@ -11,8 +11,9 @@ customjs:
 $("body").jsPanel({
     selector: "#container-1",
     position: "center",
-    theme:    "success",
-    title:    "Another jsPanel"
+    title:    "Now with some Bootstrap styling",
+    bootstrap: "default"
+    paneltype: "modal"
 });
 </script>
 </div>
