@@ -8,15 +8,21 @@ customjs:
 <div class="fixed">
 
 <script>
-$("body").jsPanel({
+var mypanel = $.jsPanel({
 	paneltype: {
         type: 'modal',
         mode: 'default'
     },
     selector: "#o-selector .panel-body",
     position: "center",
-    title:    "Now with some Bootstrap styling",
+    title:    "Trying to get the bootstrap to apply itself",
     bootstrap: "danger",
 });
+
+$("#button_1").click(function() {
+    mypanel.content.append('<button id="button_2" type="button" class="btn btn-primary">a rock super star</button>')
+})
+
+mypanel.content.append('<button id="button_1" type="button" class="btn btn-primary">So you want to be</button>')
 </script>
 </div>
