@@ -5,10 +5,10 @@ group: "navigation"
 customjs:
  - http://code.jquery.com/jquery-1.4.2.min.js
 ---
-<div class="fixed">
+<div class="fixed" id="panelContainer">
 
 <script>
-var mypanel = $.jsPanel({
+var mypanel = $("panelContainer".jsPanel({
 	paneltype: {
         type: 'modal',
         mode: 'default'
