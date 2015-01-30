@@ -8,7 +8,7 @@ customjs:
 <div class="fixed" id="panelContainer">
 
 <script>
-var mypanel = $("body".jsPanel({
+var mypanel = $("body").jsPanel({
 	paneltype: {
         type: 'modal',
         mode: 'default'
