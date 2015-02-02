@@ -3,11 +3,9 @@ layout: default
 title: panel
 group: "navigation"
 customjs:
-  - Data/MetroJs/Metrojs.min.js
   - Data/media/js/panel.js
-customcss:
-  - Data/MetroJs/MetroJs.css
 ---
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-3 col-md-2 sidebar">
