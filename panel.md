@@ -4,7 +4,7 @@ title: panel
 group: "navigation"
 customjs:
   - Data/MetroJs/Metrojs.min.js
-  Data/media/js/panel.js
+  - Data/media/js/panel.js
 customcss:
   - Data/MetroJs/MetroJs.css
 ---
