@@ -1,8 +1,13 @@
 $("body").ready(function(){
 	var config = {
 		title: "JS Panel",
-		bootstrap: "default",
-		position: "center"
+		bootstrap: "info",
+		position: "center",
+		callback: function (jspanel) {
+        jspanel.on("jspanelstatechange", function (event, id) {
+            jspanel.title("jsPanel.status: " + jspanel.status);
+        });
+    }
 	};
 
 	var mypanel = $.jsPanel(config);
