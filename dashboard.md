@@ -19,10 +19,11 @@ var mypanel = $("body").jsPanel({
     bootstrap: "danger",
 });
 
+
+mypanel.content.append('<button id="button_1" type="button" class="btn btn-primary">So you want to be</button>');
+
 $("#button_1").click(function() {
     mypanel.content.append('<button id="button_2" type="button" class="btn btn-primary">a rock super star</button>')
 });
-
-mypanel.content.append('<button id="button_1" type="button" class="btn btn-primary">So you want to be</button>');
 </script>
 </div>
