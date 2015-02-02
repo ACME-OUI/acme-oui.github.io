@@ -1,5 +1,5 @@
 $("body").ready(function(){
-	var config = {
+	var config1 = {
 		id: function(){ return 'jsPanel_' + ( $('.jsPanel').length + 1 ) },
 		title: "JS Panel",
 		bootstrap: "info",
@@ -12,16 +12,25 @@ $("body").ready(function(){
     };
 
 
+
+
 	var mouseDown = 0;
 	panelArray = [];
-	$.jsPanel(config);
 
 
 
-	$("spawner").click(function(){
-		$.jsPanel(config);
-		alert("You pushed the button")
+	$("#spawn").mousedown(function(e){
+		var mouseX = e.pageX;
+		var mouseY = e.pageY;
+
+		panelArray.push($.jsPanel({
+			size: { width: 60, height: 50 },
+    		position: { top: mouseY, right: mouseX + 60},
+    		removeHeader: true,
+    		
+		}));
 	});
+
 
 });
 
