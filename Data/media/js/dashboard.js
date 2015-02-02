@@ -1,19 +1,34 @@
 $("body").ready(function(){
 	var config = {
+		id: function(){ return 'jsPanel_' + ( $('.jsPanel').length + 1 ) },
 		title: "JS Panel",
 		bootstrap: "info",
 		position: "center",
-		callback: function (jspanel) {
-        jspanel.on("jspanelstatechange", function (event, id) {
-            jspanel.title("jsPanel.status: " + jspanel.status);
-        });
-    }
-	};
+		draggable: {
+		/*	stop: TODO: Tile all the tings    */
+			containment: '#o-draggable'
+		},
+		selector: '#o-draggable',
+    };
 
-	var mypanel = $.jsPanel(config);
 
-	mypanel.content.append('<button id="button_1" type="button" class="btn btn-primary">So you want to be</button>');
+	var mouseDown = 0;
+	panelArray = [];
+	$.jsPanel(config);
 
+
+
+	$("spawner").click(function(){
+		$.jsPanel(config);
+		alert("You pushed the button")
+	});
+
+});
+
+
+
+
+/*
 	var rockstar = $(document.createElement("button")).attr("id", "button_2").attr("type", "button").addClass("btn").addClass("btn-primary").text("a rock super star");
 
 	$("#button_1").click(function() {
@@ -22,5 +37,4 @@ $("body").ready(function(){
 			rockstar.remove()
 		});
 	});
-
-});
+*/
