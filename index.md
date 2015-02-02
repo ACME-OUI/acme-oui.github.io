@@ -5,7 +5,7 @@ title: Index
 
 <div class="hero-unit">
 <p><h1>Hello, ACME!</h1>
-<p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+<p><a href="http://www.drewgreenwell.com/projects/metrojs">Metro JS</a>.</p>
 <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p></p></div>
 
 <div class="row">
