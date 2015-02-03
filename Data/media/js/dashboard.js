@@ -1,36 +1,59 @@
 $("body").ready(function(){
-	var config1 = {
+
+
+
+	var config = {
 		id: function(){ return 'jsPanel_' + ( $('.jsPanel').length + 1 ) },
 		title: "JS Panel",
 		bootstrap: "info",
 		position: "center",
 		draggable: {
-		/*	stop: TODO: Tile all the tings    */
 			containment: '#o-draggable'
 		},
 		selector: '#o-draggable',
+		size: {
+			width: $("#o-draggable").width()-3, 
+			height: $("#o-draggable").height()-33,
+		}
     };
 
 
 
 
-	var mouseDown = 0;
 	panelArray = [];
 
 
 
-	$("#spawn").mousedown(function(e){
-		var mouseX = e.pageX;
-		var mouseY = e.pageY;
-
-		panelArray.push($.jsPanel({
-			size: { width: 60, height: 50 },
-    		position: { top: mouseY, right: mouseX + 60},
-    		removeHeader: true,
-    		
-		}));
+	$("#spawn").click(function(e){
+		if(panelArray.length == 0) {
+			var mouseX = e.pageX;
+			var mouseY = e.pageY;
+			var panel = $.jsPanel(config);
+			panelArray.push(panel);
+			panel.find(".jsPanel-btn-close").click(function(){
+				panelArray.splice(panelArray.indexOf(panel), 1);
+			});
+		} else {
+			var panel = $.jsPanel(config);
+			panel.hide();
+			panelArray.push(panel);
+			panel.find(".jsPanel-btn-close").click(function(){
+				panelArray.splice(panelArray.indexOf(panel), 1);
+			});
+			var curPanel = $(panelArray[0]);	
+			$(curPanel).width($(curPanel).width() - ($(curPanel).width() - $(curPanel.parent()).width()/panelArray.length) );
+			var panelWidth = curPanel.width();
+			for (var i = 1; i < panelArray.length; i++) {
+				curPanel = $(panelArray[i]);
+				curPanel.width(panelWidth);
+				var offset = $(panelArray[i-1]).offset();
+				curPanel.offset({left: offset.left+panelWidth});
+				curPanel.show();
+			}
+		}
 	});
 
+	
 
 });
 
