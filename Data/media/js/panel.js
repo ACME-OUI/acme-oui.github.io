@@ -1,7 +1,7 @@
 $("body").ready(function(){
 
 var panel = '<div class="tiles red">' +
-              '<div class="live-tile" id="tile1" data-mode="flip">' +
+              '<div class="live-tile" id="tile1" data-mode="flip" data-direction="horizontal">' +
                 '<div>' +
                   '<a class="full" href="#">front</a>' +
                   '<span class="tile-title">front title</span>' +
@@ -32,9 +32,9 @@ var tb = '<div>'+
  	mypanel.content.append(panel);
   });
 
-
+  var $tile = $("#tile1").liveTile({repeatCount: 0, delay:0});
   $("#tile1").click(function(){
-    $(this).liveTile('play');
+    $tile.liveTile("play");
   });
 
 });
