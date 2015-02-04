@@ -1,53 +1,32 @@
-$("body").ready(function(){
-
+$("body").ready(function() {
+	"use strict";
 	var panelArray = [];
-	var gridSize = 10;
-	var rowCount = 0;
-	var colCount = 0;
-
 	var config = {
-		id: function(){ return 'jsPanel_' + ( $('.jsPanel').length + 1 ) },
+		id: function() {
+			return "jsPanel_" + ($(".jsPanel").length + 1);
+		},
 		title: "JS Panel",
 		bootstrap: "info",
 		position: "center",
 		draggable: {
-			containment: '#o-draggable'
+			containment: "#o-draggable"
 		},
-		selector: '#o-draggable',
+		selector: "#o-draggable",
 		size: {
-			width: $("#o-draggable").width(), 
-			height: $("#o-draggable").height()-30,
+			width: $("#o-draggable").width(),
+			height: $("#o-draggable").height() - 30,
 		}
-    };
+	};
 
-
-
-	$("#spawn").click(function(e){
-		if(panelArray.length == 0) {
-			var panel = $.jsPanel(config);
-			panelArray.push(panel);
-			panel.find(".jsPanel-btn-close").click(function(){
+	$("#spawn").click(function(){
+		var panel = $.jsPanel(config);
+		panelArray.push(panel);
+		panel.find(".jsPanel-btn-close").click(function(){
 				panelArray.splice(panelArray.indexOf(panel), 1);
 				resizePanels();
-			});
-		} else {
-			var panel = $.jsPanel(config);
-			panel.hide();
-			panelArray.push(panel);
-			panel.find(".jsPanel-btn-close").click(function(){
-				panelArray.splice(panelArray.indexOf(panel), 1);
-				resizePanels();
-			});
-			resizePanels();
-			panel.show();
-		}
+		});
+		resizePanels();
 	});
-
-	function snapToGrid() {
-		if (rowCount == 0 && colCount == 0) {
-
-		}
-	}
 
 	function resizePanels() {
 		if (panelArray.length > 0) {
@@ -63,20 +42,7 @@ $("body").ready(function(){
 		}
 	}
 
-	
-
 });
 
 
-
-
-/*
-	var rockstar = $(document.createElement("button")).attr("id", "button_2").attr("type", "button").addClass("btn").addClass("btn-primary").text("a rock super star");
-
-	$("#button_1").click(function() {
-	    mypanel.content.append(rockstar);
-	    rockstar.click(function() {
-			rockstar.remove()
-		});
-	});
-*/
+	
