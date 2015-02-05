@@ -40,7 +40,8 @@ $("body").ready(function() {
 
 	function addPanel(curPanel) {
 		var pixPerGrid = $('#o-draggable').width() / gridSize;
-		
+		var i = 0;
+
 		curPanel.find('.jsPanel-btn-close').click(function() {
 			removePanel(curPanel);
 			panelArray.splice(panelArray.indexOf(curPanel), 1);
@@ -55,38 +56,34 @@ $("body").ready(function() {
 			panelArray[0].data('width', gridSize);
 			panelArray[0].data('height', gridSize);
 		} else {
-			/*check to see if we need to create a new row
+			//check to see if we need to create a new row
 			var maxCol = 1;
-			for each (var rowSize in rowArray) {
-				if (rowSize > maxCol) {
-					maxCol = rowSize;
+			for (i = 0; i < rowArray.length; i++) {
+				if (rowArray[i] > maxCol) {
+					maxCol = rowArray[i];
 				}
 			}
-			if (maxCol > rowSize.length) {
+			if (maxCol > rowArray.length) {
 				//new row is needed
-				rowArray.push(1); //add the new row size to the rowArray
-				curPanel.data('pos', {
-					row: rowArray.length-1,
-					col: 0
-				});
-				curPanel.data('width', gridSize);
-				curPanel.data('height', gridSize/rowArray.length);
-			}
-*/
+				rowArray.push(0); //add the new row size to the rowArray
 
-			var smallestRow = 0;//index of the smallest row
+			}
+
+
+			var smallestRow = rowArray[0];//index of the smallest row
 			var smallestSize = gridSize+1; //value of the smallest row
-			for (var i = rowArray.length - 1; i >= 0; i--) {
+			for (i = rowArray.length - 1; i >= 0; i--) { //find the index and length of the smallest row
 				if (rowArray[i] <= smallestSize) {
 					smallestRow = i;
 					smallestSize = rowArray[i];
 				}
 			}
-			rowArray[smallestRow] ++;
+			
 			curPanel.data('pos', {
 				row: smallestRow,
 				col: smallestSize,
 			});
+			rowArray[smallestRow] ++;
 			
 			var leftover = gridSize - (Math.floor(gridSize / rowArray[smallestRow]) * rowArray[smallestRow]);
 			for (i = 0; i < panelArray.length; i++) {
@@ -110,8 +107,13 @@ $("body").ready(function() {
 							break;
 						}
 					}
-					panelArray[i].offset({left: offset.left+panelArray[i].width()});
-				} 
+					panelArray[i].offset({
+						left: offset.left+panelArray[i].width(), 
+						top: panelArray[i].parent().offset().top + (panelArray[i].data('pos').row * panelArray[i].height() ) });
+				} else if (panelArray[i].data('pos').col == 0 && panelArray[i].data('pos').row != 0) {
+					panelArray[i].offset({
+						top: panelArray[i].parent().offset().top + (panelArray[i].data('pos').row * panelArray[i].height() ) });
+				}
 			}
 			
 			if ((panelArray.length % 2 != 0) && (panelArray.length % 3 != 0)) {
