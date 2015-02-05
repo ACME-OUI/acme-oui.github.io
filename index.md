@@ -8,7 +8,7 @@ title: Index
 <p>
 <span class="label label-success">Peter Gibbons:</span>  The thing is, Bob, it's not that I'm lazy, it's that I just don't care. <br/>
 <span class="label label-info">Bob Porter: </span>  Don't... don't care?<br/>
-<span class="label label-success">Peter Gibbons:</span>  It's a problem of motivation, all right? Now if I work my ass off and Initech ships a few extra units, I don't see another dime, so where's the motivation? And here's something else, Bob: I have eight different bosses right now.<br/>
+<span class="label label-success">Peter Gibbons:</span>  It's a problem of motivation, all right? Now if I work my booty off and Initech ships a few extra units, I don't see another dime, so where's the motivation? And here's something else, Bob: I have eight different bosses right now.<br/>
 <span class="label label-info">Bob Porter: </span>  I beg your pardon?<br/>
 <span class="label label-success">Peter Gibbons:</span>  Eight bosses.<br/>
 <span class="label label-info">Bob Porter: </span>  Eight?<br/>

@@ -47,14 +47,33 @@ $("body").ready(function() {
 		});
 
 		if (panelArray.length == 1) {
+			rowArray.push(1);
 			panelArray[0].data('pos', {
 				row: 0,
 				col: 0
 			});
 			panelArray[0].data('width', gridSize);
 			panelArray[0].data('height', gridSize);
-			rowArray.push(1);
 		} else {
+			//check to see if we need to create a new row
+			var maxCol = 1;
+			for each (var rowSize in rowArray) {
+				if (rowSize > maxCol) {
+					maxCol = rowSize;
+				}
+			}
+			if (maxCol > rowSize.length) {
+				//new row is needed
+				rowArray.push(1); //add the new row size to the rowArray
+				curPanel.data('pos', {
+					row: rowArray.length-1,
+					col: 0
+				});
+				curPanel.data('width', gridSize);
+				curPanel.data('height', gridSize/rowArray.length);
+			}
+
+
 			var smallestRow = 0;//index of the smallest row
 			var smallestSize = gridSize+1; //value of the smallest row
 			for (var i = rowArray.length - 1; i >= 0; i--) {
