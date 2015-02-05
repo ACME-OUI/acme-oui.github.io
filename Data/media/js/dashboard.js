@@ -55,7 +55,7 @@ $("body").ready(function() {
 			panelArray[0].data('width', gridSize);
 			panelArray[0].data('height', gridSize);
 		} else {
-			//check to see if we need to create a new row
+			/*check to see if we need to create a new row
 			var maxCol = 1;
 			for each (var rowSize in rowArray) {
 				if (rowSize > maxCol) {
@@ -72,7 +72,7 @@ $("body").ready(function() {
 				curPanel.data('width', gridSize);
 				curPanel.data('height', gridSize/rowArray.length);
 			}
-
+*/
 
 			var smallestRow = 0;//index of the smallest row
 			var smallestSize = gridSize+1; //value of the smallest row
