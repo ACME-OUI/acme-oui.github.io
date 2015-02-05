@@ -3,11 +3,18 @@ layout: default
 title: Index
 ---
 
-<div class="hero-unit">
-<p><h1>Hello, ACME!</h1>
-<p><a href="http://www.drewgreenwell.com/projects/metrojs">Metro JS</a>.</p>
-<p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+<div class="jumbotron">
+<h3>Panel All The Things!</h3>
+<p>
+<span class="label label-success">Peter Gibbons:</span>  The thing is, Bob, it's not that I'm lazy, it's that I just don't care. <br/>
+<span class="label label-info">Bob Porter: </span>  Don't... don't care?<br/>
+<span class="label label-success">Peter Gibbons:</span>  It's a problem of motivation, all right? Now if I work my ass off and Initech ships a few extra units, I don't see another dime, so where's the motivation? And here's something else, Bob: I have eight different bosses right now.<br/>
+<span class="label label-info">Bob Porter: </span>  I beg your pardon?<br/>
+<span class="label label-success">Peter Gibbons:</span>  Eight bosses.<br/>
+<span class="label label-info">Bob Porter: </span>  Eight?<br/>
+<span class="label label-success">Peter Gibbons:</span>  Eight, Bob. So that means that when I make a mistake, I have eight different people coming by to tell me about it. That's my only real motivation is not to be hassled, that and the fear of losing my job. But you know, Bob, that will only make someone work just hard enough not to get fired.<br/>
 </p>
+<p> <a class="btn btn-lg btn-primary" href="dashboard.html" role="button">Check it out</a> </p>
 </div>
 
 <div class="row">
