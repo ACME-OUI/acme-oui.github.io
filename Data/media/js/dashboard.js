@@ -1,48 +1,112 @@
 $("body").ready(function() {
-	"use strict";
-	var panelArray = [];
+	/*FIX THIS*/
+	panelArray = [];
+	/*DO NOT RELEASE*/
+	var gridSize = 48;
+	var rowArray = [];
+
 	var config = {
 		id: function() {
-			return "jsPanel_" + ($(".jsPanel").length + 1);
+			return 'Panel_' + ($('.jsPanel').length + 1);
 		},
-		title: "JS Panel",
-		bootstrap: "info",
-		position: "center",
+		title: function() {
+			return 'Panel_' + ($('.jsPanel').length);
+		},
+		bootstrap: 'info',
+		position: 'center',
 		draggable: {
-			containment: "#o-draggable"
+			containment: '#o-draggable'
 		},
-		selector: "#o-draggable",
+		selector: '#o-draggable',
 		size: {
-			width: $("#o-draggable").width(),
-			height: $("#o-draggable").height() - 30,
+			width: $('#o-draggable').width(),
+			height: $('#o-draggable').height() - 30,
 		}
 	};
 
-	$("#spawn").click(function(){
+
+
+	$('#spawn').click(function() {	
+		if (rowArray.length == gridSize) {
+				return;
+		}
 		var panel = $.jsPanel(config);
+		panel.data('pos', {row: 0, col: 0});
+		panel.data('width', 0);
+		panel.data('height', 0);
 		panelArray.push(panel);
-		panel.find(".jsPanel-btn-close").click(function(){
-				panelArray.splice(panelArray.indexOf(panel), 1);
-				resizePanels();
-		});
-		resizePanels();
+		addPanel(panel);
 	});
 
-	function resizePanels() {
-		if (panelArray.length > 0) {
-			var curPanel = $(panelArray[0]);	
-			$(curPanel).width($(curPanel).width() - ($(curPanel).width() - $(curPanel.parent()).width()/panelArray.length) );
-			var panelWidth = curPanel.width();
-			for (var i = 1; i < panelArray.length; i++) {
-				curPanel = $(panelArray[i]);
-				curPanel.width(panelWidth);
-				var offset = $(panelArray[i-1]).offset();
-				curPanel.offset({left: offset.left+panelWidth});
+	function addPanel(curPanel) {
+		var pixPerGrid = $('#o-draggable').width() / gridSize;
+		
+		curPanel.find('.jsPanel-btn-close').click(function() {
+			removePanel(curPanel);
+			panelArray.splice(panelArray.indexOf(curPanel), 1);
+		});
+
+		if (panelArray.length == 1) {
+			panelArray[0].data('pos', {
+				row: 0,
+				col: 0
+			});
+			panelArray[0].data('width', gridSize);
+			panelArray[0].data('height', gridSize);
+			rowArray.push(1);
+		} else {
+			var smallestRow = 0;//index of the smallest row
+			var smallestSize = gridSize+1; //value of the smallest row
+			for (var i = rowArray.length - 1; i >= 0; i--) {
+				if (rowArray[i] <= smallestSize) {
+					smallestRow = i;
+					smallestSize = rowArray[i];
+				}
 			}
+			rowArray[smallestRow] ++;
+			curPanel.data('pos', {
+				row: smallestRow,
+				col: smallestSize,
+			});
+			
+			var leftover = gridSize - (Math.floor(gridSize / rowArray[smallestRow]) * rowArray[smallestRow]);
+			for (i = 0; i < panelArray.length; i++) {
+				if (panelArray[i].data('pos').row == smallestRow) {
+					panelArray[i].data('width', Math.floor(gridSize / rowArray[smallestRow]));
+					panelArray[i].data('height', Math.floor(gridSize / rowArray.length));
+					if (leftover > 0) {
+						panelArray[i].data('width', panelArray[i].data('width') + 1);
+						leftover--;
+					}
+				}
+				panelArray[i].width((panelArray[i].data('width') * pixPerGrid));
+				panelArray[i].height(curPanel.parent().height() / (rowArray.length));
+				
+
+				
+				if (panelArray[i].data('pos').col != 0) {
+					for(var j = 0; j < panelArray.length; j++) {
+						if ((panelArray[j].data('pos').row == panelArray[i].data('pos').row) && (panelArray[j].data('pos').col == (panelArray[i].data('pos').col -1 ) )) {
+							var offset = panelArray[j].offset();
+							break;
+						}
+					}
+					panelArray[i].offset({left: offset.left+panelArray[i].width()});
+				} 
+			}
+			
+			if ((panelArray.length % 2 != 0) && (panelArray.length % 3 != 0)) {
+				panelArray[panelArray.length-1].width(panelArray[panelArray.length-1].width() + pixPerGrid);
+			}
+			
 		}
+	}
+
+	function removePanel(panel) {
+
+		return;
 	}
 
 });
 
 
-	
