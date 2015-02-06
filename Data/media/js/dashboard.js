@@ -1,9 +1,11 @@
 $("body").ready(function() {
 	/*FIX THIS*/
-	panelArray = [];
+	panelArray = []; //access to each panel element
+	rowArray = []; //the number of cols in each row, with the index as the row and the value as the amount of cols in that row
 	/*DO NOT RELEASE*/
-	var gridSize = 48;
-	var rowArray = [];
+	var gridSize = 12 * 4; //12 * X
+	
+	var pixPerGrid = $('#o-draggable').width() / gridSize;
 
 	var config = {
 		id: function() {
@@ -36,16 +38,17 @@ $("body").ready(function() {
 		panel.data('height', 0);
 		panelArray.push(panel);
 		addPanel(panel);
+
 	});
 
 	function addPanel(curPanel) {
-		var pixPerGrid = $('#o-draggable').width() / gridSize;
+		
 		var i = 0;
-
-		curPanel.find('.jsPanel-btn-close').click(function() {
-			removePanel(curPanel);
+		curPanel.find('.jsPanel-btn-close').mousedown(function() {
 			panelArray.splice(panelArray.indexOf(curPanel), 1);
+			removePanel(curPanel);
 		});
+
 
 		if (panelArray.length == 1) {
 			rowArray.push(1);
@@ -69,7 +72,6 @@ $("body").ready(function() {
 
 			}
 
-
 			var smallestRow = rowArray[0];//index of the smallest row
 			var smallestSize = gridSize+1; //value of the smallest row
 			for (i = rowArray.length - 1; i >= 0; i--) { //find the index and length of the smallest row
@@ -79,13 +81,13 @@ $("body").ready(function() {
 				}
 			}
 			
-			curPanel.data('pos', {
+			curPanel.data('pos', { //create 
 				row: smallestRow,
 				col: smallestSize,
 			});
 			rowArray[smallestRow] ++;
 			
-			var leftover = gridSize - (Math.floor(gridSize / rowArray[smallestRow]) * rowArray[smallestRow]);
+			var leftover = gridSize - (Math.floor(gridSize / rowArray[smallestRow]) * rowArray[smallestRow]); 
 			for (i = 0; i < panelArray.length; i++) {
 				if (panelArray[i].data('pos').row == smallestRow) {
 					panelArray[i].data('width', Math.floor(gridSize / rowArray[smallestRow]));
@@ -98,8 +100,7 @@ $("body").ready(function() {
 				panelArray[i].width((panelArray[i].data('width') * pixPerGrid));
 				panelArray[i].height(curPanel.parent().height() / (rowArray.length));
 				
-
-				
+			
 				if (panelArray[i].data('pos').col != 0) {
 					for(var j = 0; j < panelArray.length; j++) {
 						if ((panelArray[j].data('pos').row == panelArray[i].data('pos').row) && (panelArray[j].data('pos').col == (panelArray[i].data('pos').col -1 ) )) {
@@ -115,19 +116,73 @@ $("body").ready(function() {
 						top: panelArray[i].parent().offset().top + (panelArray[i].data('pos').row * panelArray[i].height() ) });
 				}
 			}
-			
-			if ((panelArray.length % 2 != 0) && (panelArray.length % 3 != 0)) {
-				panelArray[panelArray.length-1].width(panelArray[panelArray.length-1].width() + pixPerGrid);
+			for (i = 0; i < rowArray.length; i++) {
+				if (rowArray[i] % 2 != 0 && rowArray[i] % 3 != 0 && rowArray[i] != 1) {
+					for (j = 0; j < panelArray.length; j++) {
+						if (panelArray[j].data('pos').row == i && (panelArray[j].data('pos').col+1) == rowArray[i]) {
+							panelArray[j].width(panelArray[j].width() + pixPerGrid);
+							break;;
+						}
+					}
+				}
 			}
 			
 		}
 	}
 
 	function removePanel(panel) {
-
-		return;
+		var i = 0;
+		if( rowArray[panel.data('pos').row] == 1 ) { //check if its the only element in the row
+			console.log("removing row " + panel.data('pos').row);
+			rowArray.splice(panel.data('pos').row, 1);
+			if (panelArray.length == 0) {
+				return;
+			} else {
+				for (i = 0; i < panelArray.length; i++) {
+					panelArray[i].height(panel.parent().height() / (rowArray.length));
+					if(panel.data('pos').row < panelArray[i].data('pos').row) { //removed the row above (in the layout, actualy less in the row number)
+						panelArray[i].data('pos').row = panelArray[i].data('pos').row - 1;
+						panelArray[i].offset({top: panelArray[i].parent().offset().top + (panelArray[i].data('pos').row) * (panelArray[i].parent().height() / rowArray.length)})
+					} else { //removed the row below (in the layout, above in the row number)
+						if (panelArray[i].data('pos').row != 0) {
+							var oneUpRowOffset = 0;
+							for(var j = 0; j < panelArray.length; j++) {
+								if (panelArray[j].data('pos').row == panelArray[i].data('pos').row-1) {
+									oneUpRowOffset = panelArray[j].offset();
+									break;
+								}
+							}
+							panelArray[i].offset({
+								top: oneUpRowOffset.top + (panel.parent().height() / (rowArray.length))
+							});
+						}
+					}
+				}
+			}
+		} else {
+			console.log("removing col " + panel.data('pos').col + " from row " + panel.data('pos').row);
+			rowArray[panel.data('pos').row]--;
+			for(i = 0; i < panelArray.length; i++) {
+				if (panelArray[i].data('pos').row == panel.data('pos').row) {
+					panelArray[i].width(panelArray[i].parent().width() / rowArray[panel.data('pos').row]);
+					if (panelArray[i].data('pos').col > panel.data('pos').col) {
+						panelArray[i].data('pos', {
+							row: panelArray[i].data('pos').row, 
+							col: panelArray[i].data('pos').col - 1
+						});
+					}
+					panelArray[i].offset({
+						left: panelArray[i].parent().offset().left + panelArray[i].data('pos').col * (panelArray[i].parent().width() / (rowArray[panelArray[i].data('pos').row]))
+					});
+				}
+			}
+		}
+		panel.close();
 	}
+
+
 
 });
 
 
+		
