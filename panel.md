@@ -1,7 +1,6 @@
 ---
 layout: default
 title: panel
-group: "navigation"
 customjs:
   - Data/media/js/panel.js
 ---
