@@ -28,13 +28,13 @@ var tb = '<div>'+
     	callback: function(panel) {
         $("#config", panel.toobarHeader).on( "click", function() { alert("You clicked config"); } );
     } 	};
-  var mypanel = $.jsPanel(config);
- 	mypanel.content.append(panel);
+    var mypanel = $.jsPanel(config);
+ 	  mypanel.content.append(panel);
   });
 
   var $tile = $("#tile1").liveTile({repeatCount: 0, delay:0});
   $("#tile1").click(function(){
-    $tile.liveTile("play");
+    $(this).liveTile("play");
   });
 
 });

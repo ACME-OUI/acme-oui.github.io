@@ -1,17 +1,27 @@
 $("body").ready(function() {
 	/*FIX THIS*/
-	panelArray = [];
+	panelArray = []; //access to each panel element
+	rowArray = []; //the number of cols in each row, with the index as the row and the value as the amount of cols in that row
 	/*DO NOT RELEASE*/
-	var gridSize = 48;
-	var rowArray = [];
+	var gridSize = 12 * 4; //12 * X
+	var panelId = 0;
+	var dragPositionStartCol = 0;
+	var dragPositionStartRow = 0;
+	var dragStartWidth = 0;
+	var dragStartHeight = 0;
+	var dragPositionStopCol = 0;
+	var dragPositionStopRow = 0;
+	
+	var pixPerGrid = $('#o-draggable').width() / gridSize;
 
 	var config = {
 		id: function() {
-			return 'Panel_' + ($('.jsPanel').length + 1);
+			return 'Panel_' + panelId++;
 		},
 		title: function() {
 			return 'Panel_' + ($('.jsPanel').length);
-		},
+		}, 
+		show: 'fadeIn',
 		bootstrap: 'info',
 		position: 'center',
 		draggable: {
@@ -24,27 +34,116 @@ $("body").ready(function() {
 		}
 	};
 
-
-
+	
 	$('#spawn').click(function() {	
 		if (rowArray.length == gridSize) {
 				return;
 		}
 		var panel = $.jsPanel(config);
+		panel.data({
+			"data-mode": "flip",
+			"data-direction": "horizontal"});
+
+		
 		panel.data('pos', {row: 0, col: 0});
 		panel.data('width', 0);
 		panel.data('height', 0);
+		//panel.content.append('<div class="tiles red"><span class="tile-title">front</span></div><div><p>back side</p><span class="tile-title>back title></span></div>');
 		panelArray.push(panel);
 		addPanel(panel);
+
 	});
 
-	function addPanel(curPanel) {
-		var pixPerGrid = $('#o-draggable').width() / gridSize;
-		
-		curPanel.find('.jsPanel-btn-close').click(function() {
-			removePanel(curPanel);
-			panelArray.splice(panelArray.indexOf(curPanel), 1);
+	function dragStartPosition(panel, event) {
+		dragPositionStartCol = panel.data('pos').col;
+		dragPositionStartRow = panel.data('pos').row;
+		dragStartWidth = panel.width();
+		dragStartHeight = panel.height();
+		console.log('start col ' + dragPositionStartCol);
+		console.log('start row ' + dragPositionStartRow);
+		panel.width(200);
+		panel.height(200);
+		panel.offset({
+			top: event.pageY-15,
+			left: event.pageX-30
 		});
+	}
+
+	function dragPositionFixup(panel, event) {
+		var i = 0;
+		var switchup = 0;
+		console.log('drag end offset.left ' + panel.offset().left);
+		console.log('drag end offset.top ' + panel.offset().top);
+		console.log('drag end position x:' + event.pageX + ' y:' +event.pageY);
+		for (i = 0; i < panelArray.length; i++) {
+			if(panel.attr('id') == panelArray[i].attr('id')) {
+				continue;
+			}
+			//if mouse is to the left of the panels right side, and to the right of the panels left side
+			if ( (event.pageX < (panelArray[i].offset().left + panelArray[i].width())) && (event.pageX > panelArray[i].offset().left) ) {
+				//if the mouse is above the bottom and below the top
+				if( (event.pageY < (panelArray[i].offset().top + panelArray[i].height())) && (event.pageY > panelArray[i].offset().top) ) {
+					//switch the two panels position
+					switchup = 1;
+					console.log('switching with panel:' + i + 1);
+					panel.offset({
+						top: panelArray[i].offset().top,
+						left: panelArray[i].offset().left
+					});
+					panel.width(panelArray[i].width());
+					panel.height(panelArray[i].height());
+					panel.data('pos', {
+						row: panelArray[i].data('pos').row,
+						col: panelArray[i].data('pos').col
+					});
+					panelArray[i].data('pos', {
+						row: dragPositionStartRow,
+						col: dragPositionStartCol
+					});
+					panelArray[i].width(dragStartWidth);
+					panelArray[i].height(dragStartHeight);
+					panelArray[i].offset({
+						top: panel.parent().offset().top + dragPositionStartRow * dragStartHeight,
+						left: panel.parent().offset().left + dragPositionStartCol  * dragStartWidth
+					});
+					break;
+				}
+			}
+		}
+		if (switchup == 0) {
+			console.log('not switching');
+			panel.offset({
+				top: panel.parent().offset().top + dragPositionStartRow * dragStartHeight,
+				left: panel.parent().offset().left + dragPositionStartCol  * dragStartWidth
+			});
+			panel.width(dragStartWidth);
+			panel.height(dragStartHeight);
+		}
+	}
+
+	function addPanel(curPanel) {
+		
+		var i = 0;
+		curPanel.find('.jsPanel-btn-close').mousedown(function() {
+			panelArray.splice(panelArray.indexOf(curPanel), 1);
+			removePanel(curPanel);
+		});
+		curPanel.find('.ui-draggable-handle').mousedown(function(event) {
+			dragStartPosition(curPanel, event);
+		});
+		curPanel.find('.ui-draggable-handle').mouseup(function(event) {
+			dragPositionFixup(curPanel, event);
+		});
+		/*
+		curPanel.find('.live-tile').dblclick(function() {
+			$(this).liveTile({
+				repeatCount: 0,
+				delay: 0,
+				startNow: true,
+			});
+		});
+*/
+
 
 		if (panelArray.length == 1) {
 			rowArray.push(1);
@@ -57,38 +156,36 @@ $("body").ready(function() {
 		} else {
 			//check to see if we need to create a new row
 			var maxCol = 1;
-			for each (var rowSize in rowArray) {
-				if (rowSize > maxCol) {
-					maxCol = rowSize;
+			for (i = 0; i < rowArray.length; i++) {
+				if (rowArray[i] > maxCol) {
+					maxCol = rowArray[i];
 				}
 			}
-			if (maxCol > rowSize.length) {
+			if (maxCol > rowArray.length) {
 				//new row is needed
-				rowArray.push(1); //add the new row size to the rowArray
-				curPanel.data('pos', {
-					row: rowArray.length-1,
-					col: 0
-				});
-				curPanel.data('width', gridSize);
-				curPanel.data('height', gridSize/rowArray.length);
+
+				rowArray.push(0); //add the new row size to the rowArray
+
 			}
 
-
-			var smallestRow = 0;//index of the smallest row
+			var smallestRow = rowArray[0];//index of the smallest row
 			var smallestSize = gridSize+1; //value of the smallest row
-			for (var i = rowArray.length - 1; i >= 0; i--) {
+			for (i = rowArray.length - 1; i >= 0; i--) { //find the index and length of the smallest row
 				if (rowArray[i] <= smallestSize) {
 					smallestRow = i;
 					smallestSize = rowArray[i];
 				}
 			}
-			rowArray[smallestRow] ++;
-			curPanel.data('pos', {
+			console.log("smallestRow " + smallestRow);
+			console.log("smallestSize " + smallestSize);
+			
+			curPanel.data('pos', { //create 
 				row: smallestRow,
 				col: smallestSize,
 			});
+			rowArray[smallestRow] ++;
 			
-			var leftover = gridSize - (Math.floor(gridSize / rowArray[smallestRow]) * rowArray[smallestRow]);
+			var leftover = gridSize - (Math.floor(gridSize / rowArray[smallestRow]) * rowArray[smallestRow]); 
 			for (i = 0; i < panelArray.length; i++) {
 				if (panelArray[i].data('pos').row == smallestRow) {
 					panelArray[i].data('width', Math.floor(gridSize / rowArray[smallestRow]));
@@ -101,8 +198,7 @@ $("body").ready(function() {
 				panelArray[i].width((panelArray[i].data('width') * pixPerGrid));
 				panelArray[i].height(curPanel.parent().height() / (rowArray.length));
 				
-
-				
+			
 				if (panelArray[i].data('pos').col != 0) {
 					for(var j = 0; j < panelArray.length; j++) {
 						if ((panelArray[j].data('pos').row == panelArray[i].data('pos').row) && (panelArray[j].data('pos').col == (panelArray[i].data('pos').col -1 ) )) {
@@ -110,22 +206,81 @@ $("body").ready(function() {
 							break;
 						}
 					}
-					panelArray[i].offset({left: offset.left+panelArray[i].width()});
-				} 
+					panelArray[i].offset({
+						left: offset.left+panelArray[i].width(), 
+						top: panelArray[i].parent().offset().top + (panelArray[i].data('pos').row * panelArray[i].height() ) });
+				} else if (panelArray[i].data('pos').col == 0 && panelArray[i].data('pos').row != 0) {
+					panelArray[i].offset({
+						top: panelArray[i].parent().offset().top + (panelArray[i].data('pos').row * panelArray[i].height() ) });
+				}
 			}
-			
-			if ((panelArray.length % 2 != 0) && (panelArray.length % 3 != 0)) {
-				panelArray[panelArray.length-1].width(panelArray[panelArray.length-1].width() + pixPerGrid);
+			for (i = 0; i < rowArray.length; i++) {
+				if (rowArray[i] % 2 != 0 && rowArray[i] % 3 != 0 && rowArray[i] != 1) {
+					for (j = 0; j < panelArray.length; j++) {
+						if (panelArray[j].data('pos').row == i && (panelArray[j].data('pos').col+1) == rowArray[i]) {
+							panelArray[j].width(panelArray[j].width() + pixPerGrid);
+							break;;
+						}
+					}
+				}
 			}
 			
 		}
 	}
 
 	function removePanel(panel) {
-
-		return;
+		var i = 0;
+		if( rowArray[panel.data('pos').row] == 1 ) { //check if its the only element in the row
+			console.log("removing row " + panel.data('pos').row);
+			rowArray.splice(panel.data('pos').row, 1);
+			if (panelArray.length == 0) {
+				return;
+			} else {
+				for (i = 0; i < panelArray.length; i++) {
+					panelArray[i].height(panel.parent().height() / (rowArray.length));
+					if(panel.data('pos').row < panelArray[i].data('pos').row) { //removed the row above (in the layout, actualy less in the row number)
+						panelArray[i].data('pos').row = panelArray[i].data('pos').row - 1;
+						panelArray[i].offset({top: panelArray[i].parent().offset().top + (panelArray[i].data('pos').row) * (panelArray[i].parent().height() / rowArray.length)})
+					} else { //removed the row below (in the layout, above in the row number)
+						if (panelArray[i].data('pos').row != 0) {
+							var oneUpRowOffset = 0;
+							for(var j = 0; j < panelArray.length; j++) {
+								if (panelArray[j].data('pos').row == panelArray[i].data('pos').row-1) {
+									oneUpRowOffset = panelArray[j].offset();
+									break;
+								}
+							}
+							panelArray[i].offset({
+								top: oneUpRowOffset.top + (panel.parent().height() / (rowArray.length))
+							});
+						}
+					}
+				}
+			}
+		} else {
+			console.log("removing col " + panel.data('pos').col + " from row " + panel.data('pos').row);
+			rowArray[panel.data('pos').row]--;
+			for(i = 0; i < panelArray.length; i++) {
+				if (panelArray[i].data('pos').row == panel.data('pos').row) {
+					panelArray[i].width(panelArray[i].parent().width() / rowArray[panel.data('pos').row]);
+					if (panelArray[i].data('pos').col > panel.data('pos').col) {
+						panelArray[i].data('pos', {
+							row: panelArray[i].data('pos').row, 
+							col: panelArray[i].data('pos').col - 1
+						});
+					}
+					panelArray[i].offset({
+						left: panelArray[i].parent().offset().left + panelArray[i].data('pos').col * (panelArray[i].parent().width() / (rowArray[panelArray[i].data('pos').row]))
+					});
+				}
+			}
+		}
+		panel.close();
 	}
+
+
 
 });
 
 
+		
