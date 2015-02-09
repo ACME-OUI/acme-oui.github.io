@@ -76,13 +76,16 @@ $("body").ready(function() {
 		console.log('drag end offset.top ' + panel.offset().top);
 		console.log('drag end position x:' + event.pageX + ' y:' +event.pageY);
 		for (i = 0; i < panelArray.length; i++) {
+			if(panel.attr('id') == panelArray[i].attr('id')) {
+				continue;
+			}
 			//if mouse is to the left of the panels right side, and to the right of the panels left side
 			if ( (event.pageX < (panelArray[i].offset().left + panelArray[i].width())) && (event.pageX > panelArray[i].offset().left) ) {
 				//if the mouse is above the bottom and below the top
 				if( (event.pageY < (panelArray[i].offset().top + panelArray[i].height())) && (event.pageY > panelArray[i].offset().top) ) {
 					//switch the two panels position
 					switchup = 1;
-					console.log('switching with panel:' + i);
+					console.log('switching with panel:' + i + 1);
 					panel.offset({
 						top: panelArray[i].offset().top,
 						left: panelArray[i].offset().left
