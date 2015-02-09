@@ -4,16 +4,24 @@ $("body").ready(function() {
 	rowArray = []; //the number of cols in each row, with the index as the row and the value as the amount of cols in that row
 	/*DO NOT RELEASE*/
 	var gridSize = 12 * 4; //12 * X
+	var panelId = 0;
+	var dragPositionStartCol = 0;
+	var dragPositionStartRow = 0;
+	var dragStartWidth = 0;
+	var dragStartHeight = 0;
+	var dragPositionStopCol = 0;
+	var dragPositionStopRow = 0;
 	
 	var pixPerGrid = $('#o-draggable').width() / gridSize;
 
 	var config = {
 		id: function() {
-			return 'Panel_' + ($('.jsPanel').length + 1);
+			return 'Panel_' + panelId++;
 		},
 		title: function() {
 			return 'Panel_' + ($('.jsPanel').length);
-		},
+		}, 
+		show: 'fadeIn',
 		bootstrap: 'info',
 		position: 'center',
 		draggable: {
@@ -26,20 +34,89 @@ $("body").ready(function() {
 		}
 	};
 
-
-
+	
 	$('#spawn').click(function() {	
 		if (rowArray.length == gridSize) {
 				return;
 		}
 		var panel = $.jsPanel(config);
+		panel.data({
+			"data-mode": "flip",
+			"data-direction": "horizontal"});
+
+		
 		panel.data('pos', {row: 0, col: 0});
 		panel.data('width', 0);
 		panel.data('height', 0);
+		//panel.content.append('<div class="tiles red"><span class="tile-title">front</span></div><div><p>back side</p><span class="tile-title>back title></span></div>');
 		panelArray.push(panel);
 		addPanel(panel);
 
 	});
+
+	function dragStartPosition(panel, event) {
+		dragPositionStartCol = panel.data('pos').col;
+		dragPositionStartRow = panel.data('pos').row;
+		dragStartWidth = panel.width();
+		dragStartHeight = panel.height();
+		console.log('start col ' + dragPositionStartCol);
+		console.log('start row ' + dragPositionStartRow);
+		panel.width(200);
+		panel.height(200);
+		panel.offset({
+			top: event.pageY-15,
+			left: event.pageX-30
+		});
+	}
+
+	function dragPositionFixup(panel, event) {
+		var i = 0;
+		var switchup = 0;
+		console.log('drag end offset.left ' + panel.offset().left);
+		console.log('drag end offset.top ' + panel.offset().top);
+		console.log('drag end position x:' + event.pageX + ' y:' +event.pageY);
+		for (i = 0; i < panelArray.length; i++) {
+			//if mouse is to the left of the panels right side, and to the right of the panels left side
+			if ( (event.pageX < (panelArray[i].offset().left + panelArray[i].width())) && (event.pageX > panelArray[i].offset().left) ) {
+				//if the mouse is above the bottom and below the top
+				if( (event.pageY < (panelArray[i].offset().top + panelArray[i].height())) && (event.pageY > panelArray[i].offset().top) ) {
+					//switch the two panels position
+					switchup = 1;
+					console.log('switching with panel:' + i);
+					panel.offset({
+						top: panelArray[i].offset().top,
+						left: panelArray[i].offset().left
+					});
+					panel.width(panelArray[i].width());
+					panel.height(panelArray[i].height());
+					panel.data('pos', {
+						row: panelArray[i].data('pos').row,
+						col: panelArray[i].data('pos').col
+					});
+					panelArray[i].data('pos', {
+						row: dragPositionStartRow,
+						col: dragPositionStartCol
+					});
+					panelArray[i].width(dragStartWidth);
+					panelArray[i].height(dragStartHeight);
+					panelArray[i].offset({
+						top: panel.parent().offset().top + dragPositionStartRow * dragStartHeight,
+						left: panel.parent().offset().left + dragPositionStartCol  * dragStartWidth
+					});
+					break;
+				}
+			}
+		}
+		if (switchup == 0) {
+			console.log('not switching');
+			panel.offset({
+				top: panel.parent().offset().top + dragPositionStartRow * dragStartHeight,
+				left: panel.parent().offset().left + dragPositionStartCol  * dragStartWidth
+			});
+			panel.width(dragStartWidth);
+			panel.height(dragStartHeight);
+		}
+	}
 
 	function addPanel(curPanel) {
 		
@@ -48,6 +125,21 @@ $("body").ready(function() {
 			panelArray.splice(panelArray.indexOf(curPanel), 1);
 			removePanel(curPanel);
 		});
+		curPanel.find('.ui-draggable-handle').mousedown(function(event) {
+			dragStartPosition(curPanel, event);
+		});
+		curPanel.find('.ui-draggable-handle').mouseup(function(event) {
+			dragPositionFixup(curPanel, event);
+		});
+		/*
+		curPanel.find('.live-tile').dblclick(function() {
+			$(this).liveTile({
+				repeatCount: 0,
+				delay: 0,
+				startNow: true,
+			});
+		});
+*/
 
 
 		if (panelArray.length == 1) {
@@ -68,6 +160,7 @@ $("body").ready(function() {
 			}
 			if (maxCol > rowArray.length) {
 				//new row is needed
+
 				rowArray.push(0); //add the new row size to the rowArray
 
 			}
@@ -80,6 +173,8 @@ $("body").ready(function() {
 					smallestSize = rowArray[i];
 				}
 			}
+			console.log("smallestRow " + smallestRow);
+			console.log("smallestSize " + smallestSize);
 			
 			curPanel.data('pos', { //create 
 				row: smallestRow,
