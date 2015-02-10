@@ -11,6 +11,7 @@ $("body").ready(function() {
 	var dragStartHeight = 0;
 	var dragPositionStopCol = 0;
 	var dragPositionStopRow = 0;
+	var dragStarted = 0;
 	
 	var pixPerGrid = $('#o-draggable').width() / gridSize;
 
@@ -40,6 +41,7 @@ $("body").ready(function() {
 				return;
 		}
 		var panel = $.jsPanel(config);
+		panel.resizable();
 		panel.data({
 			"data-mode": "flip",
 			"data-direction": "horizontal"});
@@ -55,26 +57,43 @@ $("body").ready(function() {
 	});
 
 	function dragStartPosition(panel, event) {
+		dragStarted = 1;
 		dragPositionStartCol = panel.data('pos').col;
 		dragPositionStartRow = panel.data('pos').row;
 		dragStartWidth = panel.width();
 		dragStartHeight = panel.height();
 		console.log('start col ' + dragPositionStartCol);
 		console.log('start row ' + dragPositionStartRow);
-		panel.width(200);
-		panel.height(200);
+		panel.animate({
+			width: '20%',
+			height: '20%',
+		}, 500);
+		//panel.width(200);
+		//panel.height(200);
+		//panel.transition({perspective: 500, rotateY: '180deg'}, 500, 'linear');
+		//panel.css({transformOrigin:'5px 5px'}).transition({scale:0.5});
+		//panel.transition({
+		//	y: Math.abs(event.pageY - panel.offset().top)-15,
+		//	x: Math.abs(event.pageX - panel.offset().left)-30
+		//});
+
+/*
 		panel.offset({
 			top: event.pageY-15,
 			left: event.pageX-30
 		});
+*/
+
 	}
 
 	function dragPositionFixup(panel, event) {
 		var i = 0;
 		var switchup = 0;
+		//panel.css({transformOrigin:'5px 5px'}).transition({scale:1})
 		console.log('drag end offset.left ' + panel.offset().left);
 		console.log('drag end offset.top ' + panel.offset().top);
 		console.log('drag end position x:' + event.pageX + ' y:' +event.pageY);
+		
 		for (i = 0; i < panelArray.length; i++) {
 			if(panel.attr('id') == panelArray[i].attr('id')) {
 				continue;
@@ -86,6 +105,10 @@ $("body").ready(function() {
 					//switch the two panels position
 					switchup = 1;
 					console.log('switching with panel:' + i + 1);
+					/*panel.transition({
+						y: Math.abs(panel.offset().top - panelArray[i].offset().top),
+						x: Math.abs(panel.offset().left - panelArray[i].offset().left)
+					});*/
 					panel.offset({
 						top: panelArray[i].offset().top,
 						left: panelArray[i].offset().left
@@ -119,6 +142,25 @@ $("body").ready(function() {
 			panel.width(dragStartWidth);
 			panel.height(dragStartHeight);
 		}
+		dragStarted = 0;
+	}
+
+	function dragPositionCheck(panel, event) {
+		/*
+		if(dragStarted && (event.pageX < (panel.parent().offset().left + 1) || 
+			event.pageX > (panel.parent().offset().left + panel.parent().width() - 1) ||
+			event.pageY < (panel.parent().offset().top + 1) ||
+			event.pageY > (panel.parent().offset().top + panel.parent().height() - 1))) {
+			console.log('invalid more outside the box');
+			panel.offset({
+				top: panel.parent().offset().top + dragPositionStartRow * dragStartHeight,
+				left: panel.parent().offset().left + dragPositionStartCol  * dragStartWidth
+			});
+			panel.width(dragStartWidth);
+			panel.height(dragStartHeight);
+		}
+		panel.title('x:'+ event.pageX + ' y:'+event.pageY);
+		*/
 	}
 
 	function addPanel(curPanel) {
@@ -128,12 +170,15 @@ $("body").ready(function() {
 			panelArray.splice(panelArray.indexOf(curPanel), 1);
 			removePanel(curPanel);
 		});
-		curPanel.find('.ui-draggable-handle').mousedown(function(event) {
+		curPanel.find('.panel-title').mousedown(function(event) {
 			dragStartPosition(curPanel, event);
 		});
-		curPanel.find('.ui-draggable-handle').mouseup(function(event) {
+		curPanel.find('.panel-title').mouseup(function(event) {
 			dragPositionFixup(curPanel, event);
 		});
+		//curPanel.find('.panel-title').mousemove(function(event) {
+		//	dragPositionCheck(curPanel, event);
+		//});
 		/*
 		curPanel.find('.live-tile').dblclick(function() {
 			$(this).liveTile({
