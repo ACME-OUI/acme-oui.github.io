@@ -47,15 +47,15 @@ $("body").ready(function() {
 		iframe: {
 			id: 'myFrame',
 			src: sourceArray[Math.floor(Math.random()*sourceArray.length)],
-			style: {"display": "none", "border": "10px solid transparent"},
+			style: { border: "10px solid transparent"},
 			width: '100%',
 			height: '100%'
 		},
-		callback: function () {
+		/*callback: function () {
 	        document.getElementById("myFrame").onload = function(){
 	            $("#myFrame").fadeIn(2000);
 	        }
-	    }
+	    }*/
 	};
 
 	
@@ -63,7 +63,7 @@ $("body").ready(function() {
 		if (rowArray.length == gridSize) {
 				return;
 		}
-		var newConfig = config;
+		var newConfig = new Object(config);
 		//newConfig.iframe.id = newConfig.iframe.id + '1';
 		newConfig.iframe.src = sourceArray[Math.floor(Math.random()*sourceArray.length)];
 		var panel = $.jsPanel(newConfig);
