@@ -12,6 +12,16 @@ $("body").ready(function() {
 	var dragPositionStopCol = 0;
 	var dragPositionStopRow = 0;
 	var dragStarted = 0;
+
+	Array.prototype.randomElement = function () {
+	    return this[Math.floor(Math.random() * this.length)]
+	}
+
+	var sourceArray = ['http://uvcdat.llnl.gov/display.php?file=vcs3D_wnd_vector',
+						'http://uvcdat.llnl.gov/display.php?file=vcs3D_uwnd_volume',
+						'http://uvcdat.llnl.gov/display.php?file=test_vcs_patterns',
+						'http://uvcdat.llnl.gov/display.php?file=test_vcs_basic_yxvsx_masked',
+						'http://uvcdat.llnl.gov/display.php?file=test_vcs_basic_vector_zero'];
 	
 	var pixPerGrid = $('#o-draggable').width() / gridSize;
 
@@ -23,7 +33,8 @@ $("body").ready(function() {
 			return 'Panel_' + ($('.jsPanel').length);
 		}, 
 		show: 'fadeIn',
-		bootstrap: 'info',
+		//theme: 'black',
+		bootstrap: 'primary',
 		position: 'center',
 		draggable: {
 			containment: '#o-draggable'
@@ -32,7 +43,19 @@ $("body").ready(function() {
 		size: {
 			width: $('#o-draggable').width(),
 			height: $('#o-draggable').height() - 30,
-		}
+		},
+		iframe: {
+			id: 'myFrame',
+			src: sourceArray[Math.floor(Math.random()*sourceArray.length)],
+			style: {"display": "none", "border": "10px solid transparent"},
+			width: '100%',
+			height: '100%'
+		},
+		callback: function () {
+	        document.getElementById("myFrame").onload = function(){
+	            $("#myFrame").fadeIn(2000);
+	        }
+	    }
 	};
 
 	
@@ -40,12 +63,10 @@ $("body").ready(function() {
 		if (rowArray.length == gridSize) {
 				return;
 		}
-		var panel = $.jsPanel(config);
-		panel.resizable();
-		panel.data({
-			"data-mode": "flip",
-			"data-direction": "horizontal"});
-
+		var newConfig = config;
+		//newConfig.iframe.id = newConfig.iframe.id + '1';
+		newConfig.iframe.src = sourceArray[Math.floor(Math.random()*sourceArray.length)];
+		var panel = $.jsPanel(newConfig);
 		
 		panel.data('pos', {row: 0, col: 0});
 		panel.data('width', 0);
@@ -176,6 +197,7 @@ $("body").ready(function() {
 		curPanel.find('.panel-title').mouseup(function(event) {
 			dragPositionFixup(curPanel, event);
 		});
+
 		//curPanel.find('.panel-title').mousemove(function(event) {
 		//	dragPositionCheck(curPanel, event);
 		//});
