@@ -9,12 +9,21 @@ title: Index
 
 <div class="row">
 
+
 <div class="col-xs-6 col-lg-4">
-<h2>jsPanel</h2>
+<h2>Bootstrap</h2>
 <p>
-A jsPanel is highly configurable by a bunch of options, properties, methods and events. And it's not limited to the use as a floating panel. You can further use it as modal panel, as tooltip, and even as hint. Configuration options include additional toolbars for the header and/or footer sections, support for right-to-left text direction, built in bootstrap support and much more.
+Bootstrap easily and efficiently scales your websites and applications with a single code base, from phones to tablets to desktops with CSS media queries. With Bootstrap, you get extensive and beautiful documentation for common HTML elements, dozens of custom HTML and CSS components, and awesome jQuery plugins.
 </p>
-<p><a class="btn btn-default" href="http://jspanel.de/index.html" role="button">View details »</a></p>
+<p><a class="btn btn-default" href="http://getbootstrap.com" role="button">View details »</a></p>
+</div><!--/.col-xs-6.col-lg-4-->
+
+<div class="col-xs-6 col-lg-4">
+<h2>gridster js</h2>
+<p>
+This is it, the mythical drag-and-drop multi-column grid has arrived. Gridster is a jQuery plugin that allows building intuitive draggable layouts from elements spanning multiple columns. You can even dynamically add and remove elements from the grid. It is on par with sliced bread, or possibly better. MIT licensed. Suitable for children of all ages
+</p>
+<p><a class="btn btn-default" href="http://gridster.net" role="button">View details »</a></p>
 </div><!--/.col-xs-6.col-lg-4-->
 
 <div class="col-xs-6 col-lg-4">
@@ -26,11 +35,11 @@ AngularJS is a toolset for building the framework most suited to your applicatio
 </div><!--/.col-xs-6.col-lg-4-->
 
 <div class="col-xs-6 col-lg-4">
-<h2>Bootstrap</h2>
+<h2>jsPanel</h2>
 <p>
-Bootstrap easily and efficiently scales your websites and applications with a single code base, from phones to tablets to desktops with CSS media queries. With Bootstrap, you get extensive and beautiful documentation for common HTML elements, dozens of custom HTML and CSS components, and awesome jQuery plugins.
+A jsPanel is highly configurable by a bunch of options, properties, methods and events. And it's not limited to the use as a floating panel. You can further use it as modal panel, as tooltip, and even as hint. Configuration options include additional toolbars for the header and/or footer sections, support for right-to-left text direction, built in bootstrap support and much more.
 </p>
-<p><a class="btn btn-default" href="http://getbootstrap.com" role="button">View details »</a></p>
+<p><a class="btn btn-default" href="http://jspanel.de/index.html" role="button">View details »</a></p>
 </div><!--/.col-xs-6.col-lg-4-->
 
 <div class="col-xs-6 col-lg-4">
@@ -42,23 +51,11 @@ Metro JS is a JavaScript plugin for jQuery developed to easily enable Metro inte
 </div><!--/.col-xs-6.col-lg-4-->
 
 <div class="col-xs-6 col-lg-4">
-<!--
-<h2>Heading</h2>
+<h2>JPype</h2>
 <p>
-Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+JPype is an effort to allow python programs full access to java class libraries. This is achieved not through re-implementing Python, as Jython/JPython has done, but rather through interfacing at the native level in both Virtual Machines.
 </p>
-<p><a class="btn btn-default" href="#" role="button">View details »</a></p>
--->
-</div><!--/.col-xs-6.col-lg-4-->
-
-<div class="col-xs-6 col-lg-4">
-<!--
-<h2>Heading</h2>
-<p>
-Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-</p>
-<p><a class="btn btn-default" href="#" role="button">View details »</a></p>
--->
+<p><a class="btn btn-default" href="http://jpype.sourceforge.net" role="button">View details »</a></p>
 </div><!--/.col-xs-6.col-lg-4-->
 
 </div>
